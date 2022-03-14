@@ -23,7 +23,7 @@
         public static function selectAll() {
             $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);
 
-            $sql = 'SELECT * FROM '.self::$table;
+            $sql = 'SELECT * FROM '.self::$table.' LIMIT 10';
             $stmt = $connPdo->prepare($sql);
             $stmt->execute();
 
@@ -37,35 +37,11 @@
         public static function insert($data)
         {
             $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);
-
-            // LISTANDO AS PROPRIEDADES DO OBJETO RECEBIDO
-            $array = get_object_vars($data);
-            $properties = array_keys($array);
-
-            // PREPARANDO PARA ALTERAÇÃO
-            $propertiesToInsert = [];
-            $propertiesToReplace = [];
-
-            // CONSTRUINDO VARIÁVEIS
-            for ($i = 0; $i < count($properties); $i++) {
-                $key = $properties[$i];
-                array_push($propertiesToInsert, $key);
-                array_push($propertiesToReplace, ':'.$key);            
-            }
-
-            // PREPARANDO SQL
-            $sql = 'INSERT INTO '.self::$table.' '.$propertiesToInsert.' VALUES ('.$propertiesToReplace.')';
-
-            // CRIANDO A CONEXÃO
+            $sql = 'INSERT INTO '.self::$table.' (email, password, name) VALUES (:em, :pa, :na)';
             $stmt = $connPdo->prepare($sql);
-
-            // PASSANDO OS PARâMETROS
-            for ($i = 0; $i < count($properties); $i++) {
-                $key = $properties[$i];
-                $stmt->bindValue(':em', $data['email']);          
-            }
-
-            // EXECUTANDO SQL
+            $stmt->bindValue(':em', $data['email']);
+            $stmt->bindValue(':pa', $data['password']);
+            $stmt->bindValue(':na', $data['name']);
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {
@@ -75,3 +51,50 @@
             }
         }
     }
+
+    // $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);
+
+    //         // LISTANDO AS PROPRIEDADES DO OBJETO RECEBIDO
+    //         // $array = get_object_vars($data);
+    //         //$properties = array_keys($array);
+
+    //         return $data
+
+    //         // PREPARANDO PARA ALTERAÇÃO
+    //         // $propertiesToInsert = '';
+    //         // $propertiesToReplace = '';
+
+    //         // // CONSTRUINDO VARIÁVEIS
+    //         // for ($i = 0; $i < count($properties); $i++) {
+    //         //     $key = $properties[$i];
+    //         //     $propertiesToInsert = $propertiesToInsert + $key
+    //         //     $propertiesToReplace = $propertiesToReplace + ':'.$key 
+                
+    //         //     if($i < (count($properties) -1)){
+    //         //         $propertiesToInsert = $propertiesToInsert + ','
+    //         //         $propertiesToReplace = $propertiesToReplace + ','
+    //         //     }
+    //         // }
+
+    //         // return $propertiesToReplace
+
+    //         // PREPARANDO SQL
+    //         // $sql = 'INSERT INTO '.self::$table.' '.$propertiesToInsert.' VALUES ('.$propertiesToReplace.')';
+
+    //         // // CRIANDO A CONEXÃO
+    //         // $stmt = $connPdo->prepare($sql);
+
+    //         // // PASSANDO OS PARâMETROS
+    //         // for ($i = 0; $i < count($properties); $i++) {
+    //         //     $key = $properties[$i];
+    //         //     $stmt->bindValue(':'.$key, $data[$key]);          
+    //         // }
+
+    //         // // EXECUTANDO SQL
+    //         // $stmt->execute();
+
+    //         // if ($stmt->rowCount() > 0) {
+    //         //     return 'Registro inserido com sucesso!';
+    //         // } else {
+    //         //     throw new \Exception("Falha ao inserir registro!");
+    //         // }

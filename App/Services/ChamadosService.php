@@ -17,7 +17,6 @@
         public function post() 
         {
             $data = $_POST;
-
-            return Chamado::insert($data);
+            return Chamado::insert($data);            
         }
     }

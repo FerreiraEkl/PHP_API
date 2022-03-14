@@ -2,6 +2,10 @@
     header('Content-Type: application/json');
 
     require_once '../vendor/autoload.php';
+    
+    // Configurar aqui o CORS
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: *");
 
     if ($_GET['url']) {
         $url = explode('/', $_GET['url']);
@@ -16,7 +20,6 @@
 
             try {
                 $response = call_user_func_array(array(new $service, $method), $url);
-
                 http_response_code(200);
                 echo json_encode(array('status' => 'sucess', 'data' => $response));
                 exit;

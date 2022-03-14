@@ -5,12 +5,11 @@
     {
         private static $table = 'usuario';
 
-        public static function authenticate(string $pass, string $login){
+        public static function authenticate($data){
             $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);
-
-            $sql = 'SELECT * FROM '.self::$table.' WHERE id = :id';
+            $sql = 'SELECT us_nome FROM '.self::$table.' WHERE us_nome = :login';
             $stmt = $connPdo->prepare($sql);
-            $stmt->bindValue(':id', $id);
+            $stmt->bindValue(':login', $data['login']);
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {
