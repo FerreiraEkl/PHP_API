@@ -10,6 +10,11 @@
             $data = $_POST;
             return User::authenticate($data);          
         }
+
+        public function get() 
+        {
+            return User::checkAuth();          
+        }
     }
 
     
