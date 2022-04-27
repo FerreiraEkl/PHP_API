@@ -3,10 +3,14 @@
 
     use App\Models\Chamado;
 
+    use App\Models\User;
+
     class ChamadosService
     {
         public function get($id = null) 
         {
+            User::checkAuth();
+            
             if ($id) {
                 return Chamado::select($id);
             } else {
@@ -16,7 +20,10 @@
 
         public function post() 
         {
-            $data = $_POST;
+            User::checkAuth();
+
+            $data = $_POST;    
+
             return Chamado::insert($data);            
         }
     }

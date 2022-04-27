@@ -3,7 +3,7 @@
 
     class Chamado
     {
-        private static $table = 'chamado';
+        private static $table = 'chamados';
 
         public static function select(int $id) {
             $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);

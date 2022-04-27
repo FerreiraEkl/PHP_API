@@ -9,6 +9,7 @@
 
         private static $key = '123456';
 
+        // TODO: criptografar a senha antes de armazenar
         public static function authenticate($data){
             $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);
             $sql = 'SELECT userLogin FROM '.self::$table.' WHERE userLogin = :login and userPassword = :password';
