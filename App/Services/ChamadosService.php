@@ -14,7 +14,8 @@
             if ($id) {
                 return Chamado::select($id);
             } else {
-                return Chamado::selectAll();
+                $data = $_POST; 
+                return Chamado::selectAll($data);
             }
         }
 
