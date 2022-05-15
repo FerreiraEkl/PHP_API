@@ -27,8 +27,21 @@
 
             $offset = ($data['page'] -1) * $limit;
 
-
             $sql = 'SELECT * FROM '.self::$table.' LIMIT '.$limit.' OFFSET '.$offset;
+            $stmt = $connPdo->prepare($sql);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            } else {
+                throw new \Exception("Nenhum chamado encontrado!");
+            }
+        }
+
+        public static function selectCountAll() {
+            $connPdo = new \PDO(DBDRIVE.': host='.DBHOST.'; dbname='.DBNAME, DBUSER, DBPASS);
+
+            $sql = 'SELECT COUNT(*) AS total FROM '.self::$table;
             $stmt = $connPdo->prepare($sql);
             $stmt->execute();
 

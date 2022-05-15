@@ -14,8 +14,14 @@
             if ($id) {
                 return Chamado::select($id);
             } else {
-                $data = $_POST; 
-                return Chamado::selectAll($data);
+                $queryString = filter_input(INPUT_SERVER, 'QUERY_STRING');
+
+                parse_str($queryString, $parseQueryString);
+
+                $result['rows'] = Chamado::selectAll($parseQueryString);       
+                $result['count'] =  Chamado::selectCountAll();
+
+                return $result ;
             }
         }
 
